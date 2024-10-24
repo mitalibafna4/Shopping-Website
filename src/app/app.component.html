@@ -1,3 +1,16 @@
+<!-- Header section with a heading and cart icon -->
+<header class="header">
+  <h1 class="site-title">Mitali's Shopping Site</h1>
+  <div class="cart-icon">
+    <button class="cart-btn" (click)="toggleCart()">
+      <img src="https://raw.githubusercontent.com/mitalibafna4/Shopping-Website/main/assets/cart.png" alt="Cart" class="cart-image" />
+      <i class="fa fa-shopping-cart"></i>
+      <span class="cart-badge">{{ cart.length }}</span>
+    </button>
+  </div>
+</header>
+
+<!-- Main content with product list -->
 <div class="product-list">
   <div *ngFor="let product of products" class="product-card">
     <div class="product-img">
@@ -21,30 +34,20 @@
       <button class="add-to-cart-btn" (click)="addToCart(product)">Add to cart</button>
     </div>
   </div>
+</div>
 
-  <!-- Shopping Cart Icon -->
-  <div class="cart-icon">
-    <button class="cart-btn" (click)="toggleCart()">
-      <img src="https://raw.githubusercontent.com/mitalibafna4/Shopping-Website/main/assets/cart.png" alt="Cart" class="cart-image" />
-      <i class="fa fa-shopping-cart"></i>
-      <span class="cart-badge">{{ cart.length }}</span>
-    </button>
-  </div>
-
-  <!-- Cart modal, shown when isCartVisible is true -->
-  <div class="cart-modal" *ngIf="isCartVisible">
-    <div class="cart-content">
-      <h2>Shopping Cart</h2>
-      <div *ngFor="let item of cart" class="cart-item">
-        <p>Name: {{ item.name }}</p>
-        <p>Price: ${{ item.price }}</p>
-        <p>Quantity: {{ item.quantity }}</p>
-        <p>Total Price: ${{ item.price * item.quantity }}</p>
-        <hr />
-      </div>
-      <p>Total Amount: ${{ getTotalPrice() }}</p>
-      <button class="close-cart-btn" (click)="toggleCart()">Close</button>
+<!-- Cart modal, shown when isCartVisible is true -->
+<div class="cart-modal" *ngIf="isCartVisible">
+  <div class="cart-content">
+    <h2>Shopping Cart</h2>
+    <div *ngFor="let item of cart" class="cart-item">
+      <p>Name: {{ item.name }}</p>
+      <p>Price: ${{ item.price }}</p>
+      <p>Quantity: {{ item.quantity }}</p>
+      <p>Total Price: ${{ item.price * item.quantity }}</p>
+      <hr />
     </div>
+    <p>Total Amount: ${{ getTotalPrice() }}</p>
+    <button class="close-cart-btn" (click)="toggleCart()">Close</button>
   </div>
 </div>
- 
