@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
 
 interface Product {
   name: string;
@@ -22,7 +23,7 @@ interface CartItem {
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule] // Import CommonModule and FormsModule
 })
 export class AppComponent {
   products: Product[] = [
@@ -31,8 +32,8 @@ export class AppComponent {
       description: 'The OnePlus 12 is a smartphone that was designed and manufactured by OnePlus Inc.',
       price: 699,
       listPrice: 799,
-      stock: 24,
-      selectedQuantity: 1,
+      stock: 20, // Set available stock quantity
+      selectedQuantity: 1, // Default quantity set to 1
       image: 'https://github.com/mitalibafna4/Shopping-Website/raw/main/assets/oneplus12.jpg'
     },
     {
@@ -82,13 +83,7 @@ export class AppComponent {
 
   updateQuantity(event: Event, product: Product) {
     const input = event.target as HTMLInputElement;
-    const quantity = parseInt(input.value, 10);
-    if (quantity > 0 && quantity <= product.stock) {
-      product.selectedQuantity = quantity; // Update selected quantity
-    } else {
-      alert('Requested quantity is not available');
-      product.selectedQuantity = 1; // Reset to 1 if invalid
-    }
+    product.selectedQuantity = +input.value;
   }
 
   addToCart(product: Product) {
@@ -101,7 +96,7 @@ export class AppComponent {
     // Update stock and add to cart
     const existingItem = this.cart.find(item => item.name === product.name);
     if (existingItem) {
-      existingItem.quantity += product.selectedQuantity; // Increment quantity if item exists
+      existingItem.quantity += product.selectedQuantity; // Add to existing quantity
     } else {
       this.cart.push({
         name: product.name,
@@ -111,9 +106,10 @@ export class AppComponent {
     }
 
     product.stock -= product.selectedQuantity; // Update the stock
-    const totalPrice = product.price * product.selectedQuantity; // Calculate total price for the added items
-    alert(`Added ${product.selectedQuantity} ${product.name}(s) to cart. Total price: $${totalPrice}`);
     product.selectedQuantity = 1; // Reset selected quantity to default
+
+    // Show the cart modal automatically
+    this.isCartVisible = true; 
   }
 
   getTotalPrice() {
